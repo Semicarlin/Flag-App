@@ -1,4 +1,6 @@
-package com.example.flags;
+package com.example.flags.models;
+
+import android.content.Context;
 
 public class Country {
     private String name;
@@ -21,5 +23,13 @@ public class Country {
 
     public String getContinent() {
         return continent;
+    }
+
+    public int getResourceID(Context context, String packageName) {
+        return context.getResources().getIdentifier(
+                "flag_" + code.toLowerCase(),
+                "drawable",
+                packageName
+        );
     }
 }

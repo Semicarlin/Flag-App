@@ -1,4 +1,4 @@
-package com.example.flags;
+package com.example.flags.models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,8 +7,8 @@ import java.util.Random;
 public class Database {
 
     // Attributes
-    ArrayList<Country> flags;
-    private final Random randomGenerator = new Random();
+    ArrayList<Country> countries;
+    private final Random rng = new Random();
 
     // Constructor
     public Database() {
@@ -171,7 +171,7 @@ public class Database {
             new Country("New Caledonia", "NC", "Oceania"),
             new Country("New Zealand", "NZ", "Oceania"),
             new Country("Nicaragua", "NI", "North America"),
-            new Country("The Niger", "NE", "Africa"),
+            new Country("Niger", "NE", "Africa"),
             new Country("Nigeria", "NG", "Africa"),
             new Country("Niue", "NU", "Oceania"),
             new Country("Norfolk Island", "NF", "Unsure"),
@@ -182,7 +182,7 @@ public class Database {
             new Country("Oman", "OM", "Asia"),
             new Country("Pakistan", "PK", "Asia"),
             new Country("Palau", "PW", "Oceania"),
-            new Country("Palestine, State of", "PS", "Asia"),
+            new Country("Palestine", "PS", "Asia"),
             new Country("Panama", "PA", "North America"),
             new Country("Papua New Guinea", "PG", "Oceania"),
             new Country("Paraguay", "PY", "South America"),
@@ -234,7 +234,7 @@ public class Database {
             new Country("Syrian Arab Republic", "SY", "Asia"),
             new Country("Taiwan", "TW", "Asia"),
             new Country("Tajikistan", "TJ", "Asia"),
-            new Country("Tanzania, United Republic of", "TZ", "Africa"),
+            new Country("Tanzania", "TZ", "Africa"),
             new Country("Thailand", "TH", "Asia"),
             new Country("Timor-Leste", "TL", "Asia"),
             new Country("Togo", "TG", "Africa"),
@@ -256,7 +256,7 @@ public class Database {
             new Country("Uzbekistan", "UZ", "Asia"),
             new Country("Vanuatu", "VU", "Oceania"),
             new Country("Venezuela", "VE", "South America"),
-            new Country("Viet Nam", "VN", "Asia"),
+            new Country("Vietnam", "VN", "Asia"),
             new Country("British Virgin Islands", "VG", "North America"),
             new Country("U.S. Virgin Islands", "VI", "North America"),
             new Country("Wales", "GB_WLS", "Unsure"),
@@ -268,12 +268,32 @@ public class Database {
             new Country("Åland Islands", "AX", "Unsure"),
         };
 
-        flags = new ArrayList<>();
-        flags.addAll(Arrays.asList(flag_array));
+        countries = new ArrayList<>();
+        countries.addAll(Arrays.asList(flag_array));
     }
 
     // Methods
     public Country getRandomCountry() {
-        return flags.get(randomGenerator.nextInt(flags.size()));
+        return countries.get(rng.nextInt(countries.size()));
+    }
+
+    public ArrayList<Country> makeCountryList(int count) {
+        ArrayList<Country> newCountryList = new ArrayList<>();
+        while (newCountryList.size() < count) {
+            Country country = getRandomCountry();
+            if (!newCountryList.contains((country))) {
+                newCountryList.add(country);
+            }
+        }
+        return newCountryList;
+    }
+
+    public Question makeQuestion(int answerCount) {
+        Question question = new Question();
+        question.setAnswers(makeCountryList(answerCount));
+        question.setCorrectAnswer(
+            question.getAnswers().get(rng.nextInt(question.getAnswers().size()))
+        );
+        return question;
     }
 }
